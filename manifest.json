@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Ashen Feather Uptime",
+  "version": "1.0",
+  "description": "Counts uptime of Ashen Feather talent",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": ["activeTab", "scripting"]
+}
