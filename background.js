@@ -1,6 +1,3 @@
-// Keep track of tabs that need calculation after redirect
-const tabsPendingCalculation = new Set();
-
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "processPage") {
     const tabId = message.tabId;
@@ -12,22 +9,26 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       (results) => {
         const result = results[0].result;
         if (result.needsRedirect) {
-          tabsPendingCalculation.add(tabId);
+          const listener = (changedTabId, changeInfo) => {
+            if (changedTabId === tabId && changeInfo.status === "complete") {
+              // This specific tab has finished loading - remove listener immediately
+              chrome.tabs.onUpdated.removeListener(listener);
+
+              // Give a small delay for page to render fully
+              setTimeout(() => {
+                runCalculation(tabId);
+              }, 500);
+            }
+          };
+
+          // Add the specific listener before navigation
+          chrome.tabs.onUpdated.addListener(listener);
           chrome.tabs.update(tabId, { url: result.redirectUrl });
         } else {
           runCalculation(tabId);
         }
       }
     );
-  }
-});
-
-chrome.webNavigation.onCompleted.addListener((details) => {
-  if (tabsPendingCalculation.has(details.tabId) && details.frameId === 0) {
-    tabsPendingCalculation.delete(details.tabId);
-    setTimeout(() => {
-      runCalculation(details.tabId);
-    }, 500);
   }
 });
 
@@ -38,7 +39,6 @@ function runCalculation(tabId) {
   });
 }
 
-// Function to check if page has correct parameters
 function checkPageAndRedirectIfNeeded() {
   const requiredParams = {
     type: "damage-done",
@@ -48,6 +48,14 @@ function checkPageAndRedirectIfNeeded() {
 
   const currentUrl = new URL(window.location.href);
   const params = currentUrl.searchParams;
+
+  // Create a new URL object - this line is missing in your code
+  const newUrl = new URL(currentUrl.origin + currentUrl.pathname);
+
+  // Copy all existing parameters first
+  for (const [key, value] of params.entries()) {
+    newUrl.searchParams.set(key, value);
+  }
 
   let needsRedirect = false;
   for (const [key, value] of Object.entries(requiredParams)) {
