@@ -15,11 +15,11 @@ A Chrome extension that helps mage nerds calculate the uptime percentage of Ashe
 
 ## Installation
 
-1. Clone the repository
+1. Clone the repository (or download the zip)
 2. Go to chrome://extensions/
 3. Enable "Developer mode"
 4. Click "Load unpacked"
-5. Select the extension directory
+5. Select the extension directory (unzipped)
 
 ## Usage
 
