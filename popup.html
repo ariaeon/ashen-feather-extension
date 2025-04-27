@@ -7,16 +7,31 @@
         padding: 10px;
       }
       button {
-        width:100%;
-        padding: 8px;
+        width: 100%;
+        padding: 6px;
+      }
+      #statusMessage {
+        margin: 5px 0;
+        font-style: italic;
+      }
+      button:disabled {
+        background-color: #cccccc;
+        color: #666666;
       }
     </style>
   </head>
   <body>
-    <div style="display:flex; justify-content: space-between; align-items: center; gap: 10px">
+
+    <div style="display:flex; justify-content: space-between; align-items: center; gap: 5px">
       <image src="images/inv_icon_feather06a.jpg" alt="Icon" >
-      <button id="executeButton">Calculate</button>
+      <div style="display:flex; flex-direction: column; gap: 5px">
+        <button id="navigateView">Set correct view</button>
+        <button id="executeButton">Calculate</button>
+      </div>
     </div>
+    <div id="statusMessage"></div>
     <script src="popup.js"></script>
+
+
   </body>
 </html>

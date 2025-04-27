@@ -6,8 +6,5 @@
   "action": {
     "default_popup": "popup.html"
   },
-  "permissions": ["activeTab", "scripting", "webNavigation"],
-  "background": {
-    "service_worker": "background.js"
-  }
+  "permissions": ["activeTab", "scripting", "webNavigation"]
 }
