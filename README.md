@@ -6,7 +6,7 @@ A Chrome extension that helps mage nerds calculate the uptime percentage of Ashe
 
 - Disabled if not on an wclogs encounter.
 - Navigation to the correct view with required parameters
-- Calculates total casts, single-hit casts, and uptime percentage
+- Calculates total casts, single-hit casts, and uptime percentage.
 
 ## Limitations
 
