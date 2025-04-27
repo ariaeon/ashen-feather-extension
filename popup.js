@@ -111,7 +111,7 @@ function calculateResults() {
     .forEach((row) => {
       const firstColumn = row.querySelector("td:nth-child(1)");
       if (firstColumn?.textContent) {
-        // ignoring last character, sometimes a ms off
+        // ignoring last character, sometimes a ms off.
         timestamps.push(firstColumn.textContent?.trim().slice(0, -1));
       }
     });
